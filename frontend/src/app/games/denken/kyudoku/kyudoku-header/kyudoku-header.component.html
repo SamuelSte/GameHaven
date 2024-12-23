@@ -1,0 +1,9 @@
+<select class = "colordesign" (change)="this.ks.select($event)">
+    <option value="easy">easy</option>
+    <option value="medium">medium</option>
+    <option value="hard">hard</option>
+</select>
+
+<p>{{ this.ks.difficulty }}</p>
+
+<button class="colordesign" (click)="ks.reset()">reset</button>

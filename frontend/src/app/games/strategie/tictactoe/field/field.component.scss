@@ -1,0 +1,57 @@
+:host {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 8px;
+    background-color: rgba(0, 0, 0, 0.7);
+
+}
+
+button {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    position: relative;
+
+    width: 10.4167vw;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    border: none;
+
+
+    &:hover .hovertext{
+        opacity: 1;
+    }
+}
+
+.hovertext {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 128px;
+}
+
+.X {
+    color: rgb(238, 102, 119);
+}
+
+.O {
+    color: rgb(24, 188, 156);
+}

@@ -1,0 +1,10 @@
+<select class = "colordesign" [disabled]="ts.gameRunning" (change)="this.ts.select($event)">
+    <option value="local">local</option>
+    <option value="easy">easy</option>
+    <option value="medium">medium</option>
+    <option value="hard">hard</option>
+</select>
+
+<p>{{ this.ts.paragraph }}</p>
+
+<button class="colordesign" (click)="ts.reset()">reset</button>

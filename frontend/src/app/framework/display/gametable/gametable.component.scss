@@ -1,0 +1,24 @@
+:host {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(66, 66, 66) rgb(155, 155, 155);
+    
+}
+
+.table {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: center;
+    width: 100%;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

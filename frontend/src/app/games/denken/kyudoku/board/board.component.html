@@ -1,0 +1,16 @@
+<table>
+    <tbody>
+        <tr *ngFor="let i of [0, 1, 2, 3, 4, 5]">
+            <td *ngFor="let j of [0, 1, 2, 3, 4, 5]" 
+                [ngClass]="{
+                    'marked': ks.statusField[i][j] === Status.MARKED, 
+                    'erased': ks.statusField[i][j] === Status.ERASED,
+                    'critical': ks.criticalColumns.includes(j) || ks.criticalRows.includes(i),
+                    'win' : ks.win
+                }"
+                (click)="ks.click(i, j)">
+                    {{ ks.field[i][j] }}
+            </td>
+        </tr>
+    </tbody>
+</table>

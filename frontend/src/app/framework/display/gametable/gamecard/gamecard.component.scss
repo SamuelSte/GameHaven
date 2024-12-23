@@ -1,0 +1,30 @@
+.card {
+    border-radius: 20px;
+    height: 150px;
+    width: 150px;
+    background-color: white;
+    margin: 32px;
+
+    transition: all .2s ease-in-out;
+
+
+    img {
+        height: 80%;
+        width: 100%;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    p {
+        color: black;
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        margin-top: 0px;
+        margin-left: 10px;
+    }
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+}

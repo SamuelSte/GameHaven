@@ -1,0 +1,27 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 90vh;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.button {
+    color: black;
+    background-color: white;
+    height: 64px;
+    border: none;
+    border-radius: 20px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    text-align: left;
+    padding-left: 16px;
+
+    &:hover {
+        background-color: rgba(0, 0, 175, 0.1);
+        cursor: pointer;
+    }
+
+}
