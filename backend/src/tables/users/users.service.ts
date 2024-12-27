@@ -31,8 +31,12 @@ export class UserService {
         return this.userRepository.delete(id);
     }
 
-    findOne(id: number) {
+    findOneByID(id: number) {
         return this.userRepository.findOneBy({ id });
+    }
+
+    findOneByUsername(username: string) {
+        return this.userRepository.findOneBy({ username });
     }
 
 }

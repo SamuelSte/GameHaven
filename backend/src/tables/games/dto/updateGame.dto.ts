@@ -6,6 +6,6 @@ export class UpdateGameDto {
     name?: string;
 
     @IsOptional()
-    description?: string;
+    category?: string;
 
 }

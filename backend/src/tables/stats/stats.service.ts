@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Stat } from "./stats.entity";
 import { Repository } from "typeorm";
 import { CreateStatDto } from "./dto/createStat.dto";
 import { UpdateStatDto } from "./dto/updateStat.dto";
-import { User } from "src/users/users.entity";
-import { Game } from "src/games/games.entity";
+import { User } from "src/tables/users/users.entity";
+import { Game } from "src/tables/games/games.entity";
+import { Stat } from "./stats.entity";
 
 @Injectable()
 export class StatsService {

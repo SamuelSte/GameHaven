@@ -1,5 +1,5 @@
-import { Game } from "src/games/games.entity";
-import { User } from "src/users/users.entity";
+import { Game } from "src/tables/games/games.entity";
+import { User } from "src/tables/users/users.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { GameSpecificStat } from "./game_specific_stats/gss.entity";
 

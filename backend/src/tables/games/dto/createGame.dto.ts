@@ -7,6 +7,7 @@ export class CreateGameDto {
     name: string;
     
 
-    @IsOptional()
-    description?: string;
+    @IsString()
+    @IsNotEmpty()
+    category: string;
 }

@@ -1,4 +1,4 @@
-import { Stat } from "src/stats/stats.entity";
+import { Stat } from "src/tables/stats/stats.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
