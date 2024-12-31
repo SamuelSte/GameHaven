@@ -22,8 +22,13 @@ export class GameController {
     }
   
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number) {
-      return this.gameService.findOne(id);
+    findOneById(@Param('id', ParseIntPipe) id: number) {
+      return this.gameService.findOneById(id);
+    }
+    
+    @Get(':name')
+    findOneByName(@Param('name') name: string) {
+      return this.gameService.findOneByName(name);
     }
   
     @Patch(':id')

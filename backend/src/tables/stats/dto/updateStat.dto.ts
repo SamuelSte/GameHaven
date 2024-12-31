@@ -1,4 +1,12 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateStatDto } from './createStat.dto';
+import { IsNotEmpty, IsNumber } from "class-validator";
 
-export class UpdateStatDto extends PartialType(CreateStatDto) {}
+export class updateStatDto {
+    
+    @IsNotEmpty()
+    @IsNumber()
+    gamesPlayed: number;
+
+    @IsNotEmpty()
+    @IsNumber()
+    gamesWon: number;
+}

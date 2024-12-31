@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsIn } from 'class-validator';
 
 export class CreateStatDto {
   @IsNotEmpty()
@@ -9,14 +9,19 @@ export class CreateStatDto {
   @IsNumber()
   gameId: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
-  gamesPlayed: number;
+  gamesPlayed: number = 0;
+
+  @IsOptional()
+  @IsNumber()
+  gamesWon: number = 0;
 
   @IsNotEmpty()
-  @IsNumber()
-  gamesWon: number;
-
-  @IsNotEmpty()
+  @IsIn(['easy', 'medium', 'hard'])
   difficulty: string;
+
+  @IsOptional()
+  @IsDateString()
+  lastPlayed?: Date;
 }

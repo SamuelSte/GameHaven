@@ -31,7 +31,7 @@ export class UserService {
         return this.userRepository.delete(id);
     }
 
-    findOneByID(id: number) {
+    findOneById(id: number) {
         return this.userRepository.findOneBy({ id });
     }
 

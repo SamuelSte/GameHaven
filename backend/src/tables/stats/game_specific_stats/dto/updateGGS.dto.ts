@@ -1,5 +1,10 @@
-import { CreateGameSpecificStatDto } from "./createGGS.dto";
-import { PartialType } from '@nestjs/mapped-types';
+import { IsNotEmpty } from "class-validator";
 
-export class UpdateGameSpecificStatDto extends PartialType(CreateGameSpecificStatDto) {}
+
+export class UpdateGameSpecificStatDto {
+
+    @IsNotEmpty()
+    data: Record<string, any>;
+
+}
 

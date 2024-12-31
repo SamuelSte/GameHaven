@@ -23,8 +23,12 @@ export class GameService {
         return this.gameRepository.find();
     }
 
-    findOne(id: number) {
-        return this.gameRepository.findOneBy({ id });
+    async findOneById(id: number): Promise<Game | null> {
+        return await this.gameRepository.findOneBy({ id });
+    }
+
+    async findOneByName(name: string): Promise<Game | null> {
+        return await this.gameRepository.findOneBy({ name });
     }
 
     updateGame(id: number, updateGameDto: UpdateGameDto) {

@@ -18,7 +18,7 @@ export class UserController {
 
     @Get(':id')
     async getOne(@Param('id') id: number) {
-        return await this.userService.findOneByID(id);
+        return await this.userService.findOneById(id);
     }
 
     @Get(':username')

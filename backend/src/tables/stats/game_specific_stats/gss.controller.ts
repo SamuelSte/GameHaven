@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { GSSService } from "./gss.service";
 import { CreateGameSpecificStatDto } from "./dto/createGGS.dto";
 import { UpdateGameSpecificStatDto } from "./dto/updateGGS.dto";
@@ -16,17 +16,12 @@ export class GSSController {
       return this.gameSpecificStatService.create(createGameSpecificStatDto);
     }
   
-    @Get()
-    findAll() {
-      return this.gameSpecificStatService.findAll();
+    @Get(':statId')
+    findOneById(@Param('statId') statId: number) {
+      return this.gameSpecificStatService.findOneByStatId(statId);
     }
   
-    @Get(':id')
-    findOne(@Param('id') id: number) {
-      return this.gameSpecificStatService.findOne(id);
-    }
-  
-    @Put(':id')
+    @Patch(':id')
     update(@Param('id') id: number, @Body() updateGameSpecificStatDto: UpdateGameSpecificStatDto) {
       return this.gameSpecificStatService.update(id, updateGameSpecificStatDto);
     }

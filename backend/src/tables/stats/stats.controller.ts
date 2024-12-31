@@ -1,38 +1,45 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Request, UseGuards } from "@nestjs/common";
 import { StatsService } from "./stats.service";
 import { CreateStatDto } from "./dto/createStat.dto";
-import { UpdateStatDto } from "./dto/updateStat.dto";
+import { updateStatDto } from "./dto/updateStat.dto";
+import { AuthGuard } from "src/auth/auth.guard";
 
 @Controller('stats')
+@UseGuards(AuthGuard)
 export class StatsController {
     constructor(private readonly statService: StatsService) {}
 
-    @Post(':userId/:gameId')
+    @Post(':gameId')
     create(
-      @Param('userId') userId: number,
       @Param('gameId') gameId: number,
+      @Request() req: any,
       @Body() createStatDto: CreateStatDto,
     ) {
-      createStatDto.userId = userId;
+      createStatDto.userId = req.user.id;
       createStatDto.gameId = gameId;
+
       return this.statService.create(createStatDto);
     }
-  
-    @Get()
-    findAll() {
-      return this.statService.findAll();
+    
+
+    @Get(':gameId/:difficulty')
+    findOneByGameAndDifficulty(
+      @Param() params: { gameId: number; difficulty: string },
+      @Request() req: any
+    ) {
+      return this.statService.findOneByGameAndDifficulty(req.user.id, params.gameId, params.difficulty);
     }
-  
-    @Get(':id')
-    findOne(@Param('id') id: number) {
-      return this.statService.findOne(id);
+    
+    
+    @Patch(':gameId/:difficulty')
+    update(
+      @Param() params: { gameId: number; difficulty: string },
+      @Body() updateStatDto: updateStatDto,
+      @Request() req: any
+    ) {
+      return this.statService.update(req.user.id, params.gameId, params.difficulty, updateStatDto);
     }
-  
-    @Put(':id')
-    update(@Param('id') id: number, @Body() updateStatDto: UpdateStatDto) {
-      return this.statService.update(id, updateStatDto);
-    }
-  
+
     @Delete(':id')
     remove(@Param('id') id: number) {
       return this.statService.remove(id);

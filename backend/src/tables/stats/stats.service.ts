@@ -1,17 +1,20 @@
-import { Injectable } from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateStatDto } from "./dto/createStat.dto";
-import { UpdateStatDto } from "./dto/updateStat.dto";
 import { User } from "src/tables/users/users.entity";
 import { Game } from "src/tables/games/games.entity";
 import { Stat } from "./stats.entity";
+import { GameService } from "../games/games.service";
+import { updateStatDto } from "./dto/updateStat.dto";
+import { UserService } from "../users/users.service";
 
 @Injectable()
 export class StatsService {
     constructor(
-        @InjectRepository(Stat)
-        private readonly statRepository: Repository<Stat>,
+        @InjectRepository(Stat) private readonly statRepository: Repository<Stat>,
+        private readonly gameService: GameService,
+        private readonly userService: UserService
     ) {}
     
     async create(createStatDto: CreateStatDto) {
@@ -21,27 +24,54 @@ export class StatsService {
         if (!user || !game) {
           throw new Error('User or Game not found');
         }
+
+        
+        const stat = this.findOneByGameAndDifficulty(createStatDto.userId, createStatDto.gameId, createStatDto.difficulty);
+
+        if (stat) {
+            throw new ConflictException('Stat already exists.');
+        }
+        
+
+        if (!createStatDto.lastPlayed) {
+            createStatDto.lastPlayed = new Date();
+        }
       
-        const stat = this.statRepository.create({
-          ...createStatDto,
-          user,
-          game,
-        });
-      
-        return this.statRepository.save(stat);
+        const newStat = this.statRepository.create({
+            ...createStatDto,
+            user,
+            game
+    });
+        return this.statRepository.save(newStat);
+        
       }
-      
 
-    findAll() {
-        return this.statRepository.find({ relations: ['user', 'game'] });
+    async findOneByGameAndDifficulty(userId: number, gameId: number, difficulty: string) {
+        const game = await this.gameService.findOneById(gameId);
+        const user = await this.userService.findOneById(userId);
+
+        if (!game || !user) {
+            throw new ConflictException('Game or User not found');
+        }
+
+        return this.statRepository.findOne({
+            where: { user: user, game: game, difficulty: difficulty },
+            relations: ['user', 'game'],
+        });
     }
 
-    findOne(id: number) {
-        return this.statRepository.findOne({ where: { id }, relations: ['user', 'game'] });
+    async update(userId: number, gameId: number, difficulty: string, updateStatDto: updateStatDto) {
+        const stat = await this.findOneByGameAndDifficulty(userId, gameId, difficulty);
+
+        if (!stat) {
+            throw new Error('Stat not found');
+        }
+
+        return this.statRepository.update({id: stat.id}, {...updateStatDto});
     }
 
-    update(id: number, updateStatDto: UpdateStatDto) {
-        return this.statRepository.update(id, updateStatDto);
+    findOneById(id: number) {
+        return this.statRepository.findOneBy({id});
     }
 
     remove(id: number) {

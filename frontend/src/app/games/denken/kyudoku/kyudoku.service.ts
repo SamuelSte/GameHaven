@@ -33,6 +33,7 @@ export class KyudokuService {
     this.criticalRows = [];
     this.fillSolutionNumbers();
     this.fillUp();
+
   }
 
   fillUp() {
