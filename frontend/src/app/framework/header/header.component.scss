@@ -1,13 +1,16 @@
-.header {
+:host {
     height: 10vh;
     background-color: rgba(0, 0, 175, 0.5);
     text-align: left;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding-left: 32px;
+    padding-right: 16px;
+    user-select: none;
 }
 
-.text {
+h1 {
     font-family: "Poppins", sans-serif;
     font-size: 40px;
     margin: 0;
@@ -24,7 +27,7 @@
         'opsz' 20
 }
 
-.test {
+.logo {
     display: flex;
     align-items: center;
     &:hover {
@@ -32,7 +35,8 @@
     }
 }
 
-.test2 {
-    height: 60px;
-    width: 60px;
+.profile {
+    &:hover {
+        cursor: pointer;
+    }
 }

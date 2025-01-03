@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class SignupComponent {
 
   signupForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.signupForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(4)]],
@@ -34,6 +34,7 @@ export class SignupComponent {
       this.authService.signup({ username, password }).subscribe({
         next: (response) => {
           console.log('User created successfully:', response);
+          this.router.navigate(['/auth/login']);
         },
         error: (error) => {
           console.error('Error:', error);

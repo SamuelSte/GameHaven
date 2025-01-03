@@ -1,7 +1,7 @@
 import { IsNotEmpty } from "class-validator";
 
 
-export class UpdateGameSpecificStatDto {
+export class UpdateSaveDto {
 
     @IsNotEmpty()
     data: Record<string, any>;

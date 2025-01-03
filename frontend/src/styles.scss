@@ -5,3 +5,11 @@ body {
 }
 html, body { height: 100vh; width: 100vw; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+* {
+    --mdc-dialog-container-color: transparent;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    box-shadow: none !important;
+}

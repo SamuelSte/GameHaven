@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { HeaderService } from './header.service';
 
 @Component({
   selector: 'header',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public headerService: HeaderService) {}
 
   home(): void {
     this.router.navigate([``]);

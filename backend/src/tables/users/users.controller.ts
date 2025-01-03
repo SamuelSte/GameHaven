@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Request, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { UserService } from "./users.service";
 import { CreateUserDto } from "./dto/createUser.dto";
 import { UpdateUserDto } from "./dto/updateUser.dto";
+import { AuthGuard } from "src/auth/auth.guard";
 
 
 @Controller('users')
@@ -12,8 +13,10 @@ export class UserController {
     }
 
     @Get()
-    async getUsers() { 
-        return await this.userService.findUsers();
+    @UseGuards(AuthGuard)
+    async getUser(@Request() req) {
+        const userId = req.user.id; 
+        return await this.userService.findOneById(userId);
     }
 
     @Get(':id')

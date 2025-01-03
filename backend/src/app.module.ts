@@ -7,10 +7,10 @@ import { User } from './tables/users/users.entity';
 import { UserModule } from './tables/users/users.module';
 import { Game } from './tables/games/games.entity';
 import { GameModule } from './tables/games/games.module';
-import { GameSpecificStat } from './tables/stats/game_specific_stats/gss.entity';
+import { Save } from './tables/stats/save/save.entity';
 import { Stat } from './tables/stats/stats.entity';
 import { StatsModule } from './tables/stats/stats.module';
-import { GSSModule } from './tables/stats/game_specific_stats/gss.module';
+import { SaveModule } from './tables/stats/save/save.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -27,15 +27,15 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User, Game, GameSpecificStat, Stat],
-        synchronize: false,
+        entities: [User, Game, Save, Stat],
+        synchronize: false
       }),
       inject: [ConfigService],
     }),
     UserModule,
     GameModule,
     StatsModule,
-    GSSModule,
+    SaveModule,
     AuthModule,
   ],
   controllers: [AppController],

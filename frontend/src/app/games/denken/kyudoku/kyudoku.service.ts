@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { KyudokuCommunication } from './kyudoku.communication.service';
 
 export enum Status {
   CLEAR = 0,
@@ -11,7 +12,8 @@ export enum Status {
 })
 export class KyudokuService {
 
-  selectValue: string = "easy";
+  constructor(private com: KyudokuCommunication) {}
+
   difficulty: string = "easy";
 
   field: number[][] = Array.from({ length: 6 }, () => Array(6).fill(0));
@@ -25,7 +27,7 @@ export class KyudokuService {
 
   win: boolean = false;
 
-  createField() {
+  createNewField() {
     this.field = Array.from({ length: 6 }, () => Array(6).fill(0));
     this.statusField = Array.from({ length: 6}, () => Array(6).fill(Status.CLEAR));
 
@@ -35,6 +37,46 @@ export class KyudokuService {
     this.fillUp();
 
   }
+
+  async createField() {
+    await this.com.loadUsername();
+    if (this.com.getUsername() !== '') {
+      await this.com.load(this.difficulty);
+
+      if (!this.com.getStat()?.data) {
+        this.com.createStat(this.difficulty);
+      }
+
+      if (!this.com.getSave()?.data) {
+        this.createNewField();
+      } else {
+        this.field = this.com.getBoard();
+        this.statusField = this.com.getStatus();
+      }
+    } else {
+      this.createNewField();
+    }
+  }
+
+  async save() {
+    await this.com.load(this.difficulty);
+    await this.com.loadUsername();
+    if (this.com.getUsername() === '') return;
+  
+    const saveJSON = {
+      data: {
+        board: this.com.convertArrayToJson(this.field),
+        status: this.com.convertArrayToJson(this.statusField)
+      }
+    };
+
+    if (this.com.getSave()?.data) {
+      this.com.updateSave(await this.com.getStat()?.data.id, saveJSON);
+    } else {
+      this.com.createSave(await this.com.getStat()?.data.id, saveJSON);
+    }
+  }
+  
 
   fillUp() {
     this.field = this.field.map(row => row.map(n => n === 0 ? Math.floor(Math.random() * 9) + 1 : n));
@@ -82,20 +124,22 @@ export class KyudokuService {
       }
     }
   }
-  
 
-  constructor() { }
+  async reset() {
+    this.createNewField();
 
-  reset() {
-    this.createField();
+    await this.com.updateStat(this.difficulty, this.win);
+
     this.win = false;
-    this.difficulty = this.selectValue;
+
   }
 
-  select(event: Event) {
+  async select(event: Event) {
+    await this.save();
     const element = event.target as HTMLSelectElement;
     element.blur();
-    this.selectValue = element.value;
+    this.difficulty = element.value;
+    await this.createField();
   }
 
   click(x:number, y:number) {
@@ -137,7 +181,7 @@ export class KyudokuService {
     nums = nums.sort((a, b) => a - b);
 
     if (nums.length === finish.length && nums.every((value, index) => value === finish[index])) {
-      this.win = true;;
+      this.win = true;
     }
   }
 

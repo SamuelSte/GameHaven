@@ -1,7 +1,7 @@
 import { Game } from "src/tables/games/games.entity";
 import { User } from "src/tables/users/users.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { GameSpecificStat } from "./game_specific_stats/gss.entity";
+import { Save } from "./save/save.entity";
 
 
 @Entity('stats')
@@ -28,6 +28,6 @@ export class Stat {
   @Column({ nullable: true, type: 'datetime' })
   lastPlayed: Date;
 
-  @OneToMany(() => GameSpecificStat, (gameSpecificStat) => gameSpecificStat.stat)
-  gameSpecificStats: GameSpecificStat[];
+  @OneToMany(() => Save, (Save) => Save.stat)
+  save: Save[];
 }

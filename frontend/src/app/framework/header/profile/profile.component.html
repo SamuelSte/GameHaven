@@ -1,0 +1,5 @@
+<div class="profile">
+    <h1 *ngIf="headerService.getUsername() !== ''">{{ headerService.getUsername() }}</h1>
+    <button *ngIf="headerService.getUsername() !== ''" (click)="this.headerService.logout()">logout</button>
+    <button *ngIf="headerService.getUsername() === ''" (click)="this.headerService.toLoginPage()">login</button>
+</div>

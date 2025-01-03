@@ -14,13 +14,9 @@ import { Request } from 'express';
         throw new UnauthorizedException();
       }
       try {
-        const payload = await this.jwtService.verifyAsync(
-          token,
-          {
-            secret: this.configService.get<string>('SECRET_KEY')
-          }
-        );
-        request['user'] = payload;
+        const secret = this.configService.get<string>('SECRET_KEY');
+        const payload = await this.jwtService.verify(token, { secret });
+        request.user = payload;
       } catch {
         throw new UnauthorizedException();
       }

@@ -12,7 +12,7 @@ export class UserService {
 
     }
 
-    findUsers() {
+    findUser() {
         return this.userRepository.find();
     }
 

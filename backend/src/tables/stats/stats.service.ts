@@ -26,7 +26,7 @@ export class StatsService {
         }
 
         
-        const stat = this.findOneByGameAndDifficulty(createStatDto.userId, createStatDto.gameId, createStatDto.difficulty);
+        const stat = await this.findOneByGameAndDifficulty(createStatDto.userId, createStatDto.gameId, createStatDto.difficulty);
 
         if (stat) {
             throw new ConflictException('Stat already exists.');

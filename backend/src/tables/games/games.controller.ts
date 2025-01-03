@@ -20,11 +20,6 @@ export class GameController {
     findAll() {
       return this.gameService.findAll();
     }
-  
-    @Get(':id')
-    findOneById(@Param('id', ParseIntPipe) id: number) {
-      return this.gameService.findOneById(id);
-    }
     
     @Get(':name')
     findOneByName(@Param('name') name: string) {

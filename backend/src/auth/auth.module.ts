@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -17,9 +17,10 @@ import { UserModule } from '../tables/users/users.module';
         signOptions: { expiresIn: '2d' },
       }),
     }),
-    UserModule,
+    forwardRef(() => UserModule),
   ],
   controllers: [AuthController],
   providers: [AuthService],
+  exports: [JwtModule]
 })
 export class AuthModule {}

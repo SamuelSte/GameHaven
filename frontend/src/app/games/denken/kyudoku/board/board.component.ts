@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { KyudokuService, Status } from '../kyudoku.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { KyudokuService, Status } from '../kyudoku.service';
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit, OnDestroy{
 
   public Status = Status;
 
@@ -19,6 +19,15 @@ export class BoardComponent {
 
   ngOnInit() {
     this.ks.createField();
+  }
+
+  ngOnDestroy() {
+    this.ks.save();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  handleBeforeUnload(event: Event) {
+    this.ks.save();
   }
 
 }

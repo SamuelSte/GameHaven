@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,15 @@ export class AuthService {
   }
 
   login(user: { username: string; password: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/login`, user);
+    const url = `${this.baseUrl}/auth/login`;
+    console.log(url);
+    return this.http.post(url, user, { withCredentials: true })
+      .pipe(
+        catchError(error => {
+          console.error('Login failed', error);
+          return throwError(error);
+        })
+      );
   }
+  
 }
