@@ -4,18 +4,18 @@ import axios, { AxiosResponse } from 'axios';
 @Injectable({
     providedIn: 'root'
 })
-export class KyudokuCommunication {
+export class GameService {
 
     private baseUrl = 'http://localhost:3000/';
-    private gameUrl = 'http://localhost:3000/games/kyudoku';
+    private gameUrl = 'http://localhost:3000/games';
     private saveUrl = 'http://localhost:3000/saves';
+    private userUrl = 'http://localhost:3000/users';
 
     private username: string = "";
 
     private gameId: number | undefined;
     private stat: AxiosResponse<any, any> | undefined;
     private save: AxiosResponse<any, any> | undefined;
-    private userUrl: string = 'http://localhost:3000/users';;
 
     constructor() {}
 
@@ -91,7 +91,7 @@ export class KyudokuCommunication {
         }
     }
 
-    async createStat(difficulty: string) {
+    async createStat(game: string, difficulty: string) {
         if (!this.stat?.data) {
             this.setAxios();
 
@@ -100,14 +100,14 @@ export class KyudokuCommunication {
             }
 
             try {
-                await axios.post(`${this.baseUrl}stats/${await this.getGameId()}`, payload);
+                await axios.post(`${this.baseUrl}stats/${await this.getGameId(game)}`, payload);
             } catch (error: any) {
                 console.error("Fehler:", error.message);
             }
         }
     }
 
-    async updateStat(difficulty: string, win: boolean) {
+    async updateStat(game: string, difficulty: string, win: boolean) {
         if (this.stat) {
             this.setAxios();
 
@@ -120,9 +120,9 @@ export class KyudokuCommunication {
             }
 
             try {
-                await axios.patch(`${this.baseUrl}stats/${await this.getGameId()}/${difficulty}`, payload);
+                await axios.patch(`${this.baseUrl}stats/${await this.getGameId(game)}/${difficulty}`, payload);
 
-                const gameId = await this.getGameId();
+                const gameId = await this.getGameId(game);
                 const statUrl = `${this.baseUrl}stats/${gameId}/${difficulty}`;
                 this.stat = await axios.get(statUrl);
             } catch (error: any) {
@@ -168,13 +168,13 @@ export class KyudokuCommunication {
         return json.map(obj => keys.map(key => obj[key.toString()] ?? 0));
     }
 
-    async load(difficulty: string) {
+    async load(game: string, difficulty: string) {
         this.setAxios();
 
         this.stat = undefined;
         this.save = undefined;
 
-        const gameId = await this.getGameId();
+        const gameId = await this.getGameId(game);
         const statUrl = `${this.baseUrl}stats/${gameId}/${difficulty}`;
         this.stat = await axios.get(statUrl);
 
@@ -185,9 +185,9 @@ export class KyudokuCommunication {
         }
     }
 
-    async getGameId() {
+    async getGameId(game: string) {
         if (!this.gameId) {
-            this.gameId = (await axios.get(this.gameUrl)).data.id;
+            this.gameId = (await axios.get(`${this.gameUrl}/${game}`)).data.id;
         }
         return this.gameId;
     }

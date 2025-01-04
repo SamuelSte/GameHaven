@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { KyudokuCommunication } from './kyudoku.communication.service';
+import { GameService } from '../../game.service';
 
 export enum Status {
   CLEAR = 0,
@@ -12,9 +12,11 @@ export enum Status {
 })
 export class KyudokuService {
 
-  constructor(private com: KyudokuCommunication) {}
+  constructor(private gameService: GameService) {}
 
   difficulty: string = "easy";
+
+  name: string = "kyudoku";
 
   field: number[][] = Array.from({ length: 6 }, () => Array(6).fill(0));
   statusField: Status[][] = Array.from({ length: 6}, () => Array(6).fill(Status.CLEAR));
@@ -39,19 +41,19 @@ export class KyudokuService {
   }
 
   async createField() {
-    await this.com.loadUsername();
-    if (this.com.getUsername() !== '') {
-      await this.com.load(this.difficulty);
+    await this.gameService.loadUsername();
+    if (this.gameService.getUsername() !== '') {
+      await this.gameService.load(this.name, this.difficulty);
 
-      if (!this.com.getStat()?.data) {
-        this.com.createStat(this.difficulty);
+      if (!this.gameService.getStat()?.data) {
+        this.gameService.createStat(this.name, this.difficulty);
       }
 
-      if (!this.com.getSave()?.data) {
+      if (!this.gameService.getSave()?.data) {
         this.createNewField();
       } else {
-        this.field = this.com.getBoard();
-        this.statusField = this.com.getStatus();
+        this.field = this.gameService.getBoard();
+        this.statusField = this.gameService.getStatus();
       }
     } else {
       this.createNewField();
@@ -59,21 +61,21 @@ export class KyudokuService {
   }
 
   async save() {
-    await this.com.load(this.difficulty);
-    await this.com.loadUsername();
-    if (this.com.getUsername() === '') return;
+    await this.gameService.load(this.name, this.difficulty);
+    await this.gameService.loadUsername();
+    if (this.gameService.getUsername() === '') return;
   
     const saveJSON = {
       data: {
-        board: this.com.convertArrayToJson(this.field),
-        status: this.com.convertArrayToJson(this.statusField)
+        board: this.gameService.convertArrayToJson(this.field),
+        status: this.gameService.convertArrayToJson(this.statusField)
       }
     };
 
-    if (this.com.getSave()?.data) {
-      this.com.updateSave(await this.com.getStat()?.data.id, saveJSON);
+    if (this.gameService.getSave()?.data) {
+      this.gameService.updateSave(await this.gameService.getStat()?.data.id, saveJSON);
     } else {
-      this.com.createSave(await this.com.getStat()?.data.id, saveJSON);
+      this.gameService.createSave(await this.gameService.getStat()?.data.id, saveJSON);
     }
   }
   
@@ -128,7 +130,7 @@ export class KyudokuService {
   async reset() {
     this.createNewField();
 
-    await this.com.updateStat(this.difficulty, this.win);
+    await this.gameService.updateStat(this.name, this.difficulty, this.win);
 
     this.win = false;
 
