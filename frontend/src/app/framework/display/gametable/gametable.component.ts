@@ -18,7 +18,7 @@ export class GametableComponent implements OnInit{
 
   category: string | null = null;
   allowedCategories = ['denken', 'strategie', 'geschick'];
-  denken = ['Kyudoku'];
+  denken = ['Kyudoku', 'BinaryPuzzle'];
   strategie = ['TicTacToe'];
   geschick = [];
 

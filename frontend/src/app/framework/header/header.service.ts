@@ -60,6 +60,7 @@ export class HeaderService {
         document.cookie = 'jwt=; Max-Age=0; path=/; sameSite=Strict; domain=localhost';
         axios.defaults.headers.common['Authorization'] = undefined;
         await this.loadUsername();
+        this.router.navigate(['']);
     }
 
     toLoginPage() {

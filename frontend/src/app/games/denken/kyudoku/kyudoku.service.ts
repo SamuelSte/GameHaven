@@ -41,8 +41,7 @@ export class KyudokuService {
   }
 
   async createField() {
-    await this.gameService.loadUsername();
-    if (this.gameService.getUsername() !== '') {
+    if (this.gameService.isLoggedIn()) {
       await this.gameService.load(this.name, this.difficulty);
 
       if (!this.gameService.getStat()?.data) {
@@ -58,9 +57,13 @@ export class KyudokuService {
     } else {
       this.createNewField();
     }
+    this.check();
   }
 
   async save() {
+    if (!this.gameService.isLoggedIn()) {
+      return;
+    }
     await this.gameService.load(this.name, this.difficulty);
     await this.gameService.loadUsername();
     if (this.gameService.getUsername() === '') return;
@@ -137,7 +140,10 @@ export class KyudokuService {
   }
 
   async select(event: Event) {
-    await this.save();
+    try {
+      await this.save();
+    } catch(error) {}
+    
     const element = event.target as HTMLSelectElement;
     element.blur();
     this.difficulty = element.value;
@@ -184,6 +190,8 @@ export class KyudokuService {
 
     if (nums.length === finish.length && nums.every((value, index) => value === finish[index])) {
       this.win = true;
+    } else {
+      this.win = false;
     }
   }
 

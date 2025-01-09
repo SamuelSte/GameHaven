@@ -1,0 +1,17 @@
+<table>
+    <tbody>
+        <tr *ngFor="let i of bs.getArray()">
+            <td *ngFor="let j of bs.getArray()" 
+                (click)="bs.click(i, j)"
+                [ngClass]="{
+                    'set': bs.statusField[i][j] === Status.SET,
+                    'free': bs.statusField[i][j] === Status.FREE,
+                    'win': bs.win
+                }">
+                <span *ngIf="bs.field[i][j] !== -1 && bs.field[i][j] !== 2">
+                    {{ bs.field[i][j] }}
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>

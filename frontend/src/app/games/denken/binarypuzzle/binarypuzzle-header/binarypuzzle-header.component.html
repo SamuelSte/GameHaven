@@ -1,0 +1,9 @@
+<select class = "colordesign" (change)="this.bs.select($event)">
+    <option value="easy">easy</option>
+    <option value="medium">medium</option>
+    <option value="hard">hard</option>
+</select>
+
+<p>{{ this.bs.difficulty }}</p>
+
+<button class="colordesign" (click)="bs.reset()">reset</button>

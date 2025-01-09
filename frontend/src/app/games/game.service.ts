@@ -109,6 +109,7 @@ export class GameService {
 
     async updateStat(game: string, difficulty: string, win: boolean) {
         if (this.stat) {
+            console.log("difficulty", difficulty);
             this.setAxios();
 
             const gamesPlayed = this.stat.data.gamesPlayed + 1;
@@ -173,6 +174,7 @@ export class GameService {
 
         this.stat = undefined;
         this.save = undefined;
+        this.gameId = undefined;
 
         const gameId = await this.getGameId(game);
         const statUrl = `${this.baseUrl}stats/${gameId}/${difficulty}`;
@@ -190,6 +192,24 @@ export class GameService {
             this.gameId = (await axios.get(`${this.gameUrl}/${game}`)).data.id;
         }
         return this.gameId;
+    }
+    
+    
+    isLoggedIn(): boolean {
+        if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+            let isLogged = false;
+    
+            document.cookie.split(';').forEach((cookie) => {
+                const [name] = cookie.trim().split('=');
+                if (name === 'jwt') {
+                    isLogged = true;
+                }
+            });
+    
+            return isLogged;
+        }
+    
+        return false;
     }
 
 }

@@ -1,0 +1,34 @@
+:root {
+    --cell-size: 4vw;
+}
+
+table {
+    height: 100%;
+    width: 100%;
+    border-spacing: 0;
+    border: 1px solid black;
+}
+
+td {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    text-align: center;
+    align-items: center;
+    border: 1px solid black;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    font-size: calc(var(--cell-size) / 2);
+    user-select: none;
+}
+
+.win {
+    background-color: rgba(0, 255, 21, 0.6);
+}
+
+.set {
+    color: black;
+}
+
+.free {
+    color: blue;
+}

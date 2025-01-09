@@ -11,6 +11,7 @@ export const routes: Route[] = [
             { path: ':category', loadComponent: () => import('./framework/display/gametable/gametable.component').then((m) => m.GametableComponent) },
             { path: 'strategie/tictactoe', loadComponent: () => import('./games/strategie/tictactoe/tictactoe.component').then((m) => m.TictactoeComponent) },
             { path: 'denken/kyudoku', loadComponent: () => import('./games/denken/kyudoku/kyudoku.component').then((m) => m.KyudokuComponent) },
+            { path: 'denken/binarypuzzle', loadComponent: () => import('./games/denken/binarypuzzle/binarypuzzle.component').then((m) => m.BinarypuzzleComponent) }
         ]
     },
     {
